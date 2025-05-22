@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>太阳历险记歌词 | 探索恒星的奥秘</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sun: {
+              50: '#FFFDE7',
+              100: '#FFF9C4',
+              200: '#FFF59D',
+              300: '#FFF176',
+              400: '#FFEE58',
+              500: '#FFEB3B',
+              600: '#FDD835',
+              700: '#FBC02D',
+              800: '#F9A825',
+              900: '#F57F17',
+              950: '#FF6D00',
+            },
+            sky: {
+              50: '#E1F5FE',
+              100: '#B3E5FC',
+              200: '#81D4FA',
+              300: '#4FC3F7',
+              400: '#29B6F6',
+              500: '#03A9F4',
+              600: '#039BE5',
+              700: '#0288D1',
+              800: '#0277BD',
+              900: '#01579B',
+              950: '#0D47A1',
+            },
+            cyan: {
+              50: '#E0F7FA',
+              100: '#B2EBF2',
+              200: '#80DEEA',
+              300: '#4DD0E1',
+              400: '#26C6DA',
+              500: '#00BCD4',
+              600: '#00ACC1',
+              700: '#0097A7',
+              800: '#00838F',
+              900: '#006064',
+            }
+          },
+          fontFamily: {
+            'league-shuai': ['"联盟起艺卢帅正锐黑体"', 'Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'sun': '0 0 20px rgba(255, 235, 59, 0.6), 0 0 40px rgba(255, 235, 59, 0.4), 0 0 60px rgba(255, 235, 59, 0.2)',
+            'sun-hover': '0 0 30px rgba(255, 235, 59, 0.8), 0 0 60px rgba(255, 235, 59, 0.6), 0 0 90px rgba(255, 235, 59, 0.4)',
+          }
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .lyric-highlight {
+        @apply relative cursor-pointer bg-sun-300/60 px-1 rounded transition-all duration-300 hover:bg-sun-300 hover:shadow-md;
+      }
+      .lyric-line {
+        @apply mb-2;
+      }
+      .annotation-box {
+        @apply fixed top-0 right-0 h-full w-0 bg-white/90 backdrop-blur-md p-6 shadow-lg z-20 overflow-hidden transition-all duration-300 border-l-2 border-sun-300;
+      }
+      .annotation-box.active {
+        @apply w-[300px] md:w-[350px];
+      }
+      .annotation-content {
+        @apply opacity-0 transition-opacity duration-300;
+      }
+      .annotation-box.active .annotation-content {
+        @apply opacity-100;
+      }
+      .close-annotation {
+        @apply absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors cursor-pointer;
+      }
+      .sun-bg {
+        background: radial-gradient(circle at center, #FFF176 0%, #FFEB3B 20%, #FF9800 100%);
+      }
+      .float-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+      @keyframes float {
+        0% { transform: translateY(0px) rotate(0deg); }
+        25% { transform: translateY(-10px) rotate(5deg); }
+        50% { transform: translateY(0px) rotate(0deg); }
+        75% { transform: translateY(10px) rotate(-5deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+      }
+      .fade-in {
+        animation: fadeIn 0.8s ease-in-out forwards;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .sky-gradient {
+        background: linear-gradient(to bottom, #0D47A1, #1976D2, #42A5F5, #90CAF9, #E3F2FD);
+        transition: background 1s linear;
+      }
+      .sky-blue {
+        background: linear-gradient(to bottom, #0D47A1, #1976D2, #42A5F5);
+      }
+      .sky-light-blue {
+        background: linear-gradient(to bottom, #1976D2, #42A5F5, #90CAF9, #E3F2FD);
+      }
+    }
+  </style>
+  <!-- 字体加载 -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    @font-face {
+      font-family: '联盟起艺卢帅正锐黑体';
+      src: url('path/to/your/font/lianmengqiyilushuaizhengrheit.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
+    body {
+      font-family: '联盟起艺卢帅正锐黑体', 'Inter', system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-league-shuai min-h-screen text-gray-800 sky-blue overflow-x-hidden">
+  <!-- 太阳动画背景 -->
+  <div id="sun" class="fixed top-10 right-10 w-24 h-24 md:w-32 md:h-32 rounded-full sun-bg shadow-sun z-0 float-animation"></div>
+  
+  <!-- 注释弹出框 -->
+  <div id="annotationBox" class="annotation-box">
+    <button id="closeAnnotation" class="close-annotation">
+      <i class="fa-solid fa-times"></i>
+    </button>
+    <div class="annotation-content mt-8">
+      <h3 id="annotationTitle" class="text-xl font-bold text-sun-800 mb-4 pb-2 border-b border-sun-200"></h3>
+      <div id="annotationText" class="text-gray-700 leading-relaxed"></div>
+    </div>
+  </div>
+  
+  <!-- 页面容器 -->
+  <div class="container mx-auto px-4 py-8 relative z-10">
+    <!-- 顶部导航 -->
+    <header class="mb-12 text-center fade-in" style="animation-delay: 0.2s">
+      <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-sun-800 mb-2 tracking-tight">
+        <i class="fa-solid fa-sun mr-3 text-sun-600 animate-pulse"></i>太阳历险记
+      </h1>
+      <p class="text-white text-lg max-w-2xl mx-auto">探索太阳奥秘的科学主题曲</p>
+    </header>
+    
+    <!-- 主内容区 -->
+    <main class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-10 mb-12 fade-in" style="animation-delay: 0.4s">
+      
+      <!-- 歌词区域 -->
+      <div class="lyrics-container space-y-4 text-lg leading-relaxed">
+        <div class="fade-in" style="animation-delay: 0.6s">
+          <div class="lyric-line">光谱纹蔓延太阳现象见</div>
+          <div class="lyric-line">暗影斑斑究竟是什么</div>
+          <div class="lyric-line">谁撒了芝麻点</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 0.7s">
+          <div class="lyric-line">发生什么事天知道</div>
+          <div class="lyric-line">要不要过去瞧一瞧</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 0.8s">
+          <div class="lyric-line">太阳太阳你真奇妙</div>
+          <div class="lyric-line">从里到外燃烧燃烧燃那么的闪耀</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 0.9s">
+          <div class="lyric-line">炽热的日冕肉眼难看见</div>
+          <div class="lyric-line">日全食就穿上白裙边</div>
+          <div class="lyric-line">又动态又多变</div>
+          <div class="lyric-line">太阳风现</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1s">
+          <div class="lyric-line"><span class="lyric-highlight" data-annotation="色球层呈现出玫瑰红色。">玫瑰红纱</span>裹着光球晃</div>
+          <div class="lyric-line">温度逆升<span class="lyric-highlight" data-annotation="在色球层内，温度随半径的增大而持续升高。">越外越滚烫</span></div>
+          <div class="lyric-line">两千公里<span class="lyric-highlight" data-annotation="色球的磁场是由光球层上浮的磁力线形成的多层复杂结构。">磁场织薄网</span></div>
+          <div class="lyric-line"><span class="lyric-highlight" data-annotation="日珥或日冕物质抛射，是太阳磁场束缚的等离子体巨弧。">火舌</span>翻涌不平整</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.1s">
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">看<span class="lyric-highlight" data-annotation="日珥是悬浮在日冕中的巨型等离子体弧。">日珥</span>升腾不停息</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">看<span class="lyric-highlight" data-annotation="耀斑是太阳大气局部区域磁能极速释放引起的电磁辐射大爆发。">耀斑</span>点点剧烈闪耀~爆发能量~</div>
+          <div class="lyric-line">T A I Y A~~</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.2s">
+          <div class="lyric-line">五百公里厚肉眼可见光</div>
+          <div class="lyric-line">九九成光芒从这里释放</div>
+          <div class="lyric-line">太阳黑子成群出现~~两组<span class="lyric-highlight" data-annotation="太阳黑子有两组极性相反的磁场。">磁场</span>~~</div>
+          <div class="lyric-line"><span class="lyric-highlight" data-annotation="太阳黑子活动周期约为十一年。">周期变化</span>像蝴蝶翅膀</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.3s">
+          <div class="lyric-line">发生什么事天文知道</div>
+          <div class="lyric-line">要不要过去瞧一瞧</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.4s">
+          <div class="lyric-line"><span class="lyric-highlight" data-annotation="对流区温差太大，触发对流不稳定性，高温气体像沸腾的岩浆一样翻涌舞动，从而产生磁场。">等离子舞蹈在沸腾</span></div>
+          <div class="lyric-line"><span class="lyric-highlight" data-annotation="米粒组织是从对流层上升至光球层的热气团，温度较高显得更加明亮。">蜂窝状一颗一颗一颗变化生波涛</span></div>
+          <div class="lyric-line">漫长光子接力跑<span class="lyric-highlight" data-annotation="辐射区大约位于太阳半径的25%至70%，有大量光子向外辐射，传递能量。">辐射区</span></div>
+          <div class="lyric-line">十七万年才见到光耀</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.5s">
+          <div class="lyric-line">热浪中氦元素正在发酵</div>
+          <div class="lyric-line">四氢熔成氦释放着</div>
+          <div class="lyric-line"><span class="lyric-highlight" data-annotation="一克氢弹的核聚变物质，聚变时释放的能量相当于140吨TNT当量。">亿万吨TNT当量</span></div>
+          <div class="lyric-line">巨大能量多浩浩荡荡</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.6s">
+          <div class="lyric-line">当我们凝视这团火苗</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">核心区极大压力</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">千万度高温持续不停闪耀</div>
+          <div class="lyric-line">TAIYAA~~</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.7s">
+          <div class="lyric-line">当质量转为光与热浪</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">为我们带来许多美好</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">人造太阳的来到能源宣告</div>
+          <div class="lyric-line">TAIYAA</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.8s">
+          <div class="lyric-line">期待着阳光普照~~</div>
+          <div class="lyric-line">太阳光芒人人见，能量来自核聚变</div>
+          <div class="lyric-line">人造太阳梦超棒，中华儿女定实现</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 1.9s">
+          <div class="lyric-line">一亿度千秒长，十万功率有力量</div>
+          <div class="lyric-line">控制反应超勇敢，能源解放大步赶</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 2s">
+          <div class="lyric-line">夸父追日多痴狂</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">人造太阳放光芒</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">恒星的奥秘正在慢慢揭晓~</div>
+        </div>
+        
+        <div class="fade-in" style="animation-delay: 2.1s">
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">我们学到了知识</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">心中充满好奇与敬畏</div>
+          <div class="lyric-line">太阳~~</div>
+          <div class="lyric-line">向着太阳的方向~勇敢去闯</div>
+          <div class="lyric-line">T A I Y A~~</div>
+          <div class="lyric-line">心中有梦不迷茫</div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="text-center text-sky-700 mb-8 fade-in" style="animation-delay: 1.6s">
+      <p>太阳历险记歌词 &copy; 2025 | 探索宇宙从这里开始</p>
+      <div class="mt-4 flex justify-center space-x-6">
+        <a href="#" class="text-sky-600 hover:text-sun-800 transition-colors duration-300">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a href="#" class="text-sky-600 hover:text-sun-800 transition-colors duration-300">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+        <a href="#" class="text-sky-600 hover:text-sun-800 transition-colors duration-300">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="#" class="text-sky-600 hover:text-sun-800 transition-colors duration-300">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 互动提示 -->
+  <div class="fixed bottom-4 right-[calc(1.25rem+1cm)] bg-sun-50/90 text-center p-2 rounded-full shadow-lg fade-in" style="animation-delay: 1.4s; z-index: 10; max-width: 240px;">
+    <p class="text-sun-800 text-xs md:text-sm">
+      <i class="fa-solid fa-lightbulb text-sun-600 mr-2"></i>
+      点击<span class="inline-block px-1.5 py-0.5 bg-sun-300/60 rounded-full text-sun-800 font-medium text-xs">高亮歌词</span>查看右侧注释
+    </p>
+  </div>
+
+  <script>
+    // 太阳随滚动移动
+    document.addEventListener('DOMContentLoaded', function() {
+      const sun = document.getElementById('sun');
+      const sky = document.body;
+      const annotationBox = document.getElementById('annotationBox');
+      const annotationTitle = document.getElementById('annotationTitle');
+      const annotationText = document.getElementById('annotationText');
+      const closeButton = document.getElementById('closeAnnotation');
+      
+      // 太阳动画
+      function updateSunPosition() {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollY = window.scrollY;
+        const scrollPercent = Math.min(Math.max(scrollY / docHeight, 0), 1);
+        
+        if (scrollPercent < 0.5) {
+          sky.classList.remove('sky-light-blue');
+          sky.classList.add('sky-blue');
+        } else {
+          sky.classList.remove('sky-blue');
+          sky.classList.add('sky-light-blue');
+        }
+        
+        const glowIntensity = 1 + scrollPercent;
+        sun.style.boxShadow = `0 0 ${20 * glowIntensity}px rgba(255, 235, 59, 0.6), 
+                              0 0 ${40 * glowIntensity}px rgba(255, 235, 59, 0.4), 
+                              0 0 ${60 * glowIntensity}px rgba(255, 235, 59, 0.2)`;
+      }
+      
+      // 初始化和监听滚动事件
+      updateSunPosition();
+      window.addEventListener('scroll', updateSunPosition);
+      window.addEventListener('resize', updateSunPosition);
+      
+      // 渐入动画
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.lyrics-container > div').forEach(el => {
+        observer.observe(el);
+      });
+      
+      // 注释交互
+      document.querySelectorAll('.lyric-highlight').forEach(highlight => {
+        highlight.addEventListener('click', function(e) {
+          const annotation = this.getAttribute('data-annotation');
+          if (annotation) {
+            annotationTitle.textContent = this.textContent.trim();
+            annotationText.textContent = annotation;
+            
+            // 显示注释框
+            annotationBox.classList.add('active');
+            
+            // 防止点击传播到body
+            e.stopPropagation();
+          }
+        });
+      });
+      
+      // 关闭按钮
+      closeButton.addEventListener('click', function() {
+        annotationBox.classList.remove('active');
+      });
+      
+      // 点击页面其他地方关闭注释框
+      document.body.addEventListener('click', function() {
+        annotationBox.classList.remove('active');
+      });
+      
+      // 防止点击注释框内部关闭
+      annotationBox.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
+  </script>
+</body>
+</html>
